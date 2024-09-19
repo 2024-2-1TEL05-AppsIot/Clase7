@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import com.example.clase7.databinding.ActivityMainBinding;
 import com.example.clase7.entity.Job;
 import com.example.clase7.entity.JobDto;
 import com.example.clase7.repo.JobRepository;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -322,6 +324,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("msg-test-leerArchivoTexto", "nombre trabajo: " + j.getJobTitle());
             }
 
+            mostrarLeerArchivo("leerArchivoTexto", listaTrabajos);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -340,6 +344,8 @@ public class MainActivity extends AppCompatActivity {
             for (Job j : arregloTrabajos) {
                 Log.d("msg-test-leerArchivoObjeto", j.getJobTitle());
             }
+
+            mostrarLeerArchivo("leerArchivoObjeto", arregloTrabajos);
 
         } catch (FileNotFoundException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -385,6 +391,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public void mostrarLeerArchivo(String titulo, Job[] trabajos) {
+        String jsonLeer = "";
+        for (Job j : trabajos) {
+            jsonLeer = j.getJobTitle()  + ", \n " + jsonLeer ;
+        }
+
+        new MaterialAlertDialogBuilder(MainActivity.this)
+                .setTitle(titulo)
+                .setMessage(jsonLeer)
+                .setPositiveButton("Aceptar", null)
+                .show();
     }
 
 }
